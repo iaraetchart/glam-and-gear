@@ -54,7 +54,7 @@ Abre el navegador y visita http://localhost:5173 (o el puerto indicado en la con
 ## 🌐 Despliegue en Vercel
 Puedes acceder al despliegue de la aplicación en Vercel a través del siguiente enlace:
 
-[Glam & Gear en Vercel](#)
+[Glam & Gear en Vercel](https://glam-and-gear.vercel.app)
 
 ## 🛠️ Tecnologías utilizadas
 - React con TypeScript para la construcción de la interfaz de usuario.
