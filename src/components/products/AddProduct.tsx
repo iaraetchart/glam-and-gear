@@ -5,7 +5,9 @@ interface AddProductProps {
   onAdd: (product: any) => void;
 }
 
+// Componente funcional para agregar productos
 const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
+  // Variables de estado para gestionar el modal, los detalles del producto y los mensajes de error
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
@@ -13,37 +15,59 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
   const [image, setImage] = useState('');
   const [error, setError] = useState('');
   const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Función para abrir el modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
-    setTimeout(() => setVisible(true), 10);
+    setTimeout(() => setVisible(true), 10); // Agregar una demora para activar el efecto de transición
   };
 
+  // Función para cerrar el modal
   const handleCloseModal = () => {
     setVisible(false);
     setTimeout(() => {
       setIsModalOpen(false);
-    }, 300);
+    }, 300); // Demora para permitir que la animación de cierre se complete
   };
 
+  // Función para manejar los clicks en el fondo del modal
   const handleOverlayClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).id === 'modal-overlay') {
-      handleCloseModal();
+      handleCloseModal(); // Cerrar el modal si el usuario hace click en el fondo
     }
   };
 
+  // Función para manejar el envío del formulario para agregar un producto
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    // Validar que todos los campos estén llenos
     if (!title || !price || !description || !image) {
-      setError('All fields are required.');
+      setError('Todos los campos son obligatorios.');
       return;
     }
 
     try {
-      const newProduct = { title, price: parseFloat(price), description, image };
-      const response = await axios.post('https://fakestoreapi.com/products', newProduct);
+      // Crear un nuevo objeto de producto
+      const newProduct = {
+        title,
+        price: parseFloat(price),
+        description,
+        image,
+      };
+      // Enviar una solicitud POST para agregar el producto
+      const response = await axios.post(
+        'https://fakestoreapi.com/products',
+        newProduct
+      );
+      // Llamar a la función onAdd con los datos del nuevo producto
       onAdd(response.data);
+      // Cerrar el modal y restablecer los campos del formulario
       handleCloseModal();
       setTitle('');
       setPrice('');
@@ -51,12 +75,15 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
       setImage('');
       setError('');
     } catch (err) {
-      setError('Failed to add product. Please try again.');
+      setError('Error al agregar el producto. Inténtalo de nuevo.'); // Establecer mensaje de error si la solicitud falla
+    } finally {
+      setIsLoading(false); // Establecer el estado de carga a false al finalizar
     }
   };
 
   return (
     <>
+      {/* Botón para abrir el modal */}
       <button
         onClick={handleOpenModal}
         className="bg-primary text-white py-2 px-4 rounded shadow hover:bg-variant mb-6"
@@ -64,6 +91,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
         Add Product
       </button>
 
+      {/* Modal para agregar un producto */}
       {isModalOpen && (
         <div
           id="modal-overlay"
@@ -76,8 +104,9 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
             className={`bg-white p-8 rounded-xl shadow-md w-full max-w-md transform transition-transform duration-300 ${
               visible ? 'translate-y-0 scale-100' : '-translate-y-10 scale-90'
             }`}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()} // Prevenir que el click dentro del modal lo cierre
           >
+            {/* Botón para cerrar el modal */}
             <button
               onClick={handleCloseModal}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
@@ -87,7 +116,9 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
             <h2 className="text-2xl font-bold font-redHatDisplay mb-6 text-gray-800">
               Add Product
             </h2>
+            {/* Mostrar mensaje de error si existe */}
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            {/* Formulario para agregar un producto */}
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -122,6 +153,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
                 required
               />
               <div className="flex justify-between">
+                {/* Botón para cancelar y cerrar el modal */}
                 <button
                   type="button"
                   onClick={handleCloseModal}
@@ -129,11 +161,17 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
                 >
                   Cancel
                 </button>
+                {/* Botón para enviar el formulario y agregar el producto */}
                 <button
                   type="submit"
-                  className="bg-primary text-white font-redHatDisplay py-2 px-4 rounded-full shadow hover:bg-variant transition duration-300"
+                  className={`bg-primary text-white font-redHatDisplay py-2 px-4 rounded-full shadow transition duration-300 ${
+                    isLoading
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:bg-variant'
+                  }`}
+                  disabled={isLoading} // Deshabilitar el botón mientras se envía
                 >
-                  Add Product
+                  {isLoading ? 'Adding...' : 'Add Product'}
                 </button>
               </div>
             </form>

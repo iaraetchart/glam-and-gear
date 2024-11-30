@@ -5,10 +5,12 @@ interface LoginProps {
   error: string;
 }
 
+// Componente funcional para el formulario de inicio de sesión
 const Login: React.FC<LoginProps> = ({ onLogin, error }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Función para manejar el envío del formulario de inicio de sesión
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onLogin(email, password);
@@ -17,7 +19,9 @@ const Login: React.FC<LoginProps> = ({ onLogin, error }) => {
   return (
     <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-xs sm:max-w-sm text-center">
       <h1 className="text-2xl font-bold font-redHatDisplay mb-6 text-gray-800">Login</h1>
+      {/* Mostrar mensaje de error si existe */}
       {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+      {/* Formulario de inicio de sesión */}
       <form onSubmit={handleSubmit}>
         <input
           type="email"

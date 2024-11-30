@@ -7,8 +7,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 const App: React.FC = () => {
   return (
     <Routes>
+      {/* Ruta para la página de inicio de sesión */}
       <Route path="/" element={<LoginPage />} />
       
+      {/* Ruta protegida para la página de productos */}
       <Route
         path="/products"
         element={

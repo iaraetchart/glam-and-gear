@@ -11,43 +11,50 @@ export interface Product {
 }
 
 export const useProducts = () => {
+  // Estado para almacenar todos los productos y los productos filtrados
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // useEffect para obtener los productos al montar el componente
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        // Realizar una solicitud a la API para obtener los productos
         const response = await axios.get('https://fakestoreapi.com/products');
-        setProducts(response.data);
-        setFilteredProducts(response.data);
+        setProducts(response.data); // Almacenar los productos en el estado
+        setFilteredProducts(response.data); // Inicialmente, los productos filtrados son todos los productos
       } catch (err) {
-        setError('Failed to fetch products. Please try again.');
+        setError('Failed to fetch products. Please try again.'); // Establecer mensaje de error si la solicitud falla
       } finally {
-        setLoading(false);
+        setLoading(false); // Finalizar la carga
       }
     };
 
-    fetchProducts();
+    fetchProducts(); // Llamar a la función para obtener los productos
   }, []);
 
+  // Función para manejar la selección de una categoría
   const handleCategorySelect = (category: string) => {
     if (category === 'all') {
-      setFilteredProducts(products);
+      setFilteredProducts(products); // Mostrar todos los productos si se selecciona 'all'
     } else {
-      setFilteredProducts(products.filter((product) => product.category === category));
+      setFilteredProducts(products.filter((product) => product.category === category)); // Filtrar productos por categoría
     }
   };
 
+  // Función para manejar la adición de un nuevo producto
   const handleAddProduct = (newProduct: Product) => {
-    setProducts((prev) => [newProduct, ...prev]);
-    setFilteredProducts((prev) => [newProduct, ...prev]);
+    newProduct.id = products.length + 1
+    setProducts((prev) => [newProduct, ...prev]); // Añadir el nuevo producto a la lista de productos
+    setFilteredProducts((prev) => [newProduct, ...prev]); // Añadir el nuevo producto a la lista de productos filtrados
   };
 
+  // Función para manejar la eliminación de un producto
   const handleDeleteProduct = (id: number) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-    setFilteredProducts((prev) => prev.filter((product) => product.id !== id));
+    setProducts((prev) => prev.filter((product) => product.id !== id)); // Eliminar el producto de la lista de productos
+    setFilteredProducts((prev) => prev.filter((product) => product.id !== id)); // Eliminar el producto de la lista de productos filtrados
   };
 
   return {
