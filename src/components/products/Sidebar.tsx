@@ -6,7 +6,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onCategorySelect }) => {
-  // Estado para almacenar las categorías obtenidas de la API
+  // Estado para almacenar las categorías
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('all');
 

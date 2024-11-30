@@ -5,15 +5,15 @@ interface LoginProps {
   error: string;
 }
 
+// Componente funcional para el formulario de inicio de sesión
 const Login: React.FC<LoginProps> = ({ onLogin, error }) => {
-  // Estado para almacenar el correo electrónico y la contraseña
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // Función para manejar el envío del formulario de inicio de sesión
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(email, password); // Llamar a la función onLogin pasada como prop
+    onLogin(email, password);
   };
 
   return (

@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Login from '../components/Login';
+import { validEmails, validPasswords } from '../consts/validUsers';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
+  // Función para validar las credenciales de inicio de sesión
+  const isValidUser = (email: string, password: string): boolean => {
+    return validEmails.includes(email) && validPasswords.includes(password);
+  };
+
   // Función para manejar el inicio de sesión
   const handleLogin = (email: string, password: string) => {
-    const validEmail = 'test@rua.com';
-    const validPassword = '123456';
 
     // Validar las credenciales de inicio de sesión
-    if (email === validEmail && password === validPassword) {
+    if (isValidUser(email, password)) {
       localStorage.setItem('isAuthenticated', 'true'); // Guardar estado de autenticación en localStorage
       navigate('/products'); // Navegar a la página de productos
     } else {

@@ -46,6 +46,7 @@ export const useProducts = () => {
 
   // Función para manejar la adición de un nuevo producto
   const handleAddProduct = (newProduct: Product) => {
+    newProduct.id = products.length + 1
     setProducts((prev) => [newProduct, ...prev]); // Añadir el nuevo producto a la lista de productos
     setFilteredProducts((prev) => [newProduct, ...prev]); // Añadir el nuevo producto a la lista de productos filtrados
   };

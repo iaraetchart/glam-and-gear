@@ -4,6 +4,7 @@ interface HeaderProps {
   onLogout: () => void; // Función para manejar la acción de logout
 }
 
+// Componente funcional para el encabezado
 const Header: React.FC<HeaderProps> = ({ onLogout }) => {
   return (
     <div className="flex justify-between items-center mb-6">

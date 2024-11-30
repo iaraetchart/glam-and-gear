@@ -6,7 +6,7 @@ interface CategoriesModalProps {
 }
 
 const CategoriesModal: React.FC<CategoriesModalProps> = ({ onCategorySelect }) => {
-  // Estado para almacenar las categorías obtenidas de la API
+  // Estado para almacenar las categorías
   const [categories, setCategories] = useState<string[]>([]);
   // Estado para controlar si el modal está abierto o cerrado
   const [isModalOpen, setIsModalOpen] = useState(false);
