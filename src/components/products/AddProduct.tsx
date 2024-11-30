@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 interface AddProductProps {
   onAdd: (product: any) => void;
@@ -9,11 +9,11 @@ interface AddProductProps {
 const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
   // Variables de estado para gestionar el modal, los detalles del producto y los mensajes de error
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [error, setError] = useState("");
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [error, setError] = useState('');
   const [visible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +33,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
 
   // Función para manejar los clicks en el fondo del modal
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).id === "modal-overlay") {
+    if ((e.target as HTMLElement).id === 'modal-overlay') {
       handleCloseModal(); // Cerrar el modal si el usuario hace click en el fondo
     }
   };
@@ -48,7 +48,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
 
     // Validar que todos los campos estén llenos
     if (!title || !price || !description || !image) {
-      setError("Todos los campos son obligatorios.");
+      setError('Todos los campos son obligatorios.');
       return;
     }
 
@@ -62,20 +62,20 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
       };
       // Enviar una solicitud POST para agregar el producto
       const response = await axios.post(
-        "https://fakestoreapi.com/products",
+        'https://fakestoreapi.com/products',
         newProduct
       );
       // Llamar a la función onAdd con los datos del nuevo producto
       onAdd(response.data);
       // Cerrar el modal y restablecer los campos del formulario
       handleCloseModal();
-      setTitle("");
-      setPrice("");
-      setDescription("");
-      setImage("");
-      setError("");
+      setTitle('');
+      setPrice('');
+      setDescription('');
+      setImage('');
+      setError('');
     } catch (err) {
-      setError("Error al agregar el producto. Inténtalo de nuevo."); // Establecer mensaje de error si la solicitud falla
+      setError('Error al agregar el producto. Inténtalo de nuevo.'); // Establecer mensaje de error si la solicitud falla
     } finally {
       setIsLoading(false); // Establecer el estado de carga a false al finalizar
     }
@@ -96,13 +96,13 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
         <div
           id="modal-overlay"
           className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center transition-opacity duration-300 ${
-            visible ? "opacity-100" : "opacity-0"
+            visible ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={handleOverlayClick}
         >
           <div
             className={`bg-white p-8 rounded-xl shadow-md w-full max-w-md transform transition-transform duration-300 ${
-              visible ? "translate-y-0 scale-100" : "-translate-y-10 scale-90"
+              visible ? 'translate-y-0 scale-100' : '-translate-y-10 scale-90'
             }`}
             onClick={(e) => e.stopPropagation()} // Prevenir que el click dentro del modal lo cierre
           >
@@ -166,12 +166,12 @@ const AddProduct: React.FC<AddProductProps> = ({ onAdd }) => {
                   type="submit"
                   className={`bg-primary text-white font-redHatDisplay py-2 px-4 rounded-full shadow transition duration-300 ${
                     isLoading
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-variant"
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:bg-variant'
                   }`}
                   disabled={isLoading} // Deshabilitar el botón mientras se envía
                 >
-                  {isLoading ? "Adding..." : "Add Product"}
+                  {isLoading ? 'Adding...' : 'Add Product'}
                 </button>
               </div>
             </form>
