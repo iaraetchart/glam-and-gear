@@ -20,25 +20,30 @@ const ProductsPage: React.FC = () => {
     handleDeleteProduct,
   } = useProducts();
 
+  // Función para manejar el cierre de sesión
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    navigate("/");
+    localStorage.removeItem("isAuthenticated"); // Eliminar el estado de autenticación del localStorage
+    navigate("/"); // Navegar a la página de inicio de sesión
   };
 
   return (
-    <div className="flex bg-gradient-to-br w-full  from-white to-indigo-400 min-h-[100vh]">
+    <div className="flex bg-gradient-to-br w-full from-white to-indigo-400 min-h-[100vh]">
+      {/* Barra lateral para seleccionar categorías */}
       <Sidebar onCategorySelect={handleCategorySelect} />
       <div className="flex-1 p-6">
+        {/* Encabezado con el botón de logout */}
         <Header onLogout={handleLogout} />
 
+        {/* Mostrar mensaje de carga o error */}
         <LoadingOrError loading={loading} error={error} />
 
+        {/* Botón para agregar un nuevo producto */}
         <AddProduct onAdd={handleAddProduct} />
 
-        <CategoriesModal
-            onCategorySelect={handleCategorySelect}
-          />
+        {/* Modal de categorías para pantallas pequeñas */}
+        <CategoriesModal onCategorySelect={handleCategorySelect} />
 
+        {/* Listado de productos */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-2 gap-6 min-w-0 ">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
