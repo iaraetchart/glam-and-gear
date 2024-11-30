@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Login from '../components/Login';
-import { validEmails, validPasswords } from '../consts/validUsers';
+import { validEmails, validPasswords } from '../constants/validUsers';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
